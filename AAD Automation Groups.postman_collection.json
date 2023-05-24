@@ -151,7 +151,7 @@
 							"if( pm.response.code == 200 )\r",
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
-							"    postman.setNextRequest( \"Create Connected Org\" );\r",
+							"    postman.setNextRequest( \"Create Kube Group\" );\r",
 							"}"
 						],
 						"type": "text/javascript"
@@ -174,7 +174,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"@odata.type\" : \"#microsoft.graph.authenticationStrengthPolicy\",\r\n  \"displayName\": \"Automation Dave authentication level\",\r\n  \"description\": \"The only authentication level allowed to access our secret apps\",\r\n  \"allowedCombinations\": [\r\n      \"password, email\",\r\n      \"password, hardwareOath\",\r\n      \"password, sms\"\r\n  ]\r\n}"
+					"raw": "{\r\n  \"@odata.type\" : \"#microsoft.graph.authenticationStrengthPolicy\",\r\n  \"displayName\": \"Automation Dave auth level\",\r\n  \"description\": \"The only authentication level allowed to access our secret apps\",\r\n  \"allowedCombinations\": [\r\n      \"password, hardwareOath\",\r\n      \"password, sms\"\r\n  ]\r\n}"
 				},
 				"url": {
 					"raw": "https://graph.microsoft.com/beta/policies/authenticationStrengthPolicies",
@@ -295,6 +295,96 @@
 						"entitlementManagement",
 						"connectedOrganizations",
 						"{{CatalogId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Kube Group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if( pm.response.code == 200 )\r",
+							"{\r",
+							"    var json = JSON.parse(responseBody);\r",
+							"    postman.setEnvironmentVariable(\"GroupId\", json.id);\r",
+							"    postman.setNextRequest( \"Create TestApp MFA CA Policy\" );\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{AppAccessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"KubeUsers\",\r\n  \"displayName\": \"Kubernetes Group\",\r\n  \"groupTypes\": [\r\n  ],\r\n  \"mailEnabled\": false,\r\n  \"mailNickname\": \"kube2023\",\r\n  \"securityEnabled\": true,\r\n  \"owners@odata.bind\": [\r\n    \"https://graph.microsoft.com/beta/users/bfe3ce9d-feb0-4ab9-bec7-35a446a34b19\"\r\n  ],\r\n  \"members@odata.bind\": [\r\n    \"https://graph.microsoft.com/beta/users/249f8577-5e5a-49db-b06c-5db193a0a4f7\",\r\n    \"https://graph.microsoft.com/beta/users/1e7a112f-cef4-4fb4-904c-203048e99870\"\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "https://graph.microsoft.com/beta/groups",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"beta",
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create TestApp MFA CA Policy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{AppAccessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"displayName\": \"Require MFA to TestApp from non-complaint devices.\",\r\n    \"state\": \"enabled\",\r\n    \"conditions\": {\r\n        \"applications\": {\r\n            \"includeApplications\": [\r\n                \"7f207ee6-77a6-48a7-9a71-f002c16797df\"\r\n            ]\r\n        },\r\n        \"users\": {\r\n            \"includeGroups\": [\"{{GroupId}}\"]\r\n        },\r\n        \"devices\": {\r\n            \"includeDevices\": [\r\n                \"All\"\r\n            ],\r\n            \"excludeDevices\": [\r\n                \"Compliant\"\r\n            ]\r\n        }\r\n    },\r\n    \"grantControls\": {\r\n        \"operator\": \"OR\",\r\n        \"builtInControls\": [\r\n            \"mfa\"\r\n        ]\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "https://graph.microsoft.com/beta/identity/conditionalAccess/policies",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"beta",
+						"identity",
+						"conditionalAccess",
+						"policies"
 					]
 				}
 			},
