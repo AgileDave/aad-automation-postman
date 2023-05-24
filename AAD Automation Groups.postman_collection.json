@@ -17,7 +17,7 @@
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
 							"    postman.setEnvironmentVariable(\"AppAccessToken\", json.access_token);\r",
-							"    postman.setNextRequest( \"Create Attribute for DelegatedUserManagementRole\" );\r",
+							"    postman.setNextRequest( \"Create Named Locations\" );\r",
 							"}"
 						],
 						"type": "text/javascript"
