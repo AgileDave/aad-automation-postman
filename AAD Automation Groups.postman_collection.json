@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Get App-Only Access Token Copy 2",
+			"name": "Get App-Only Access Token",
 			"event": [
 				{
 					"listen": "test",
@@ -76,6 +76,50 @@
 						"oauth2",
 						"v2.0",
 						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Named Locations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{AppAccessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"@odata.type\": \"#microsoft.graph.countryNamedLocation\",\r\n    \"displayName\": \"Some locations in the EMEA region\",\r\n    \"countriesAndRegions\": [\r\n        \"DE\",\r\n        \"GB\"\r\n    ],\r\n    \"includeUnknownCountriesAndRegions\": true\r\n}"
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/identity/conditionalAccess/namedLocations",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"identity",
+						"conditionalAccess",
+						"namedLocations"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
 					]
 				}
 			},
