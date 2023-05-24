@@ -1,0 +1,17 @@
+name: Newman Run
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: matt-ball/newman-action@master
+        with:
+          # apiKey: ${{ secrets.postmanApiKey }}
+          collection: AAD Automation Groups.postman_collection.json
+          environment: DaveMan AAD Tenant.postman_environment.json
