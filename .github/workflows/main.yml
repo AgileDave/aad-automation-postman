@@ -12,6 +12,5 @@ jobs:
       - uses: actions/checkout@master
       - uses: matt-ball/newman-action@master
         with:
-          # apiKey: ${{ secrets.postmanApiKey }}
           collection: AAD Automation Groups.postman_collection.json
           environment: DaveMan AAD Tenant.postman_environment.json
