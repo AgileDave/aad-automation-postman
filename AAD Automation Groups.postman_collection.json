@@ -83,6 +83,21 @@
 		},
 		{
 			"name": "Create Named Locations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if( pm.response.code == 200 )\r",
+							"{\r",
+							"    var json = JSON.parse(responseBody);\r",
+							"    postman.setNextRequest( \"Create Authentication Strengths Policy\" );\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -121,6 +136,165 @@
 							"value": null,
 							"disabled": true
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Authentication Strengths Policy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if( pm.response.code == 200 )\r",
+							"{\r",
+							"    var json = JSON.parse(responseBody);\r",
+							"    postman.setNextRequest( \"Create Connected Org\" );\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{AppAccessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"@odata.type\" : \"#microsoft.graph.authenticationStrengthPolicy\",\r\n  \"displayName\": \"Automation Dave authentication level\",\r\n  \"description\": \"The only authentication level allowed to access our secret apps\",\r\n  \"allowedCombinations\": [\r\n      \"password, email\",\r\n      \"password, hardwareOath\",\r\n      \"password, sms\"\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "https://graph.microsoft.com/beta/policies/authenticationStrengthPolicies",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"beta",
+						"policies",
+						"authenticationStrengthPolicies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Connected Org",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if( pm.response.code == 200 )\r",
+							"{\r",
+							"    var json = JSON.parse(responseBody);\r",
+							"    postman.setEnvironmentVariable(\"CatalogId\", json.id);\r",
+							"    postman.setNextRequest( \"Update Connected Org\" );\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{AppAccessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"displayName\":\"AgileWays\",\r\n  \"description\":\"All Things Agile\",\r\n  \"identitySources\": [\r\n    {\r\n      \"@odata.type\": \"#microsoft.graph.domainIdentitySource\",\r\n      \"domainName\": \"agileways.com\",\r\n      \"displayName\": \"AgileWays.com\"\r\n      }\r\n  ],\r\n  \"state\":\"proposed\"\r\n}"
+				},
+				"url": {
+					"raw": "https://graph.microsoft.com/beta/identityGovernance/entitlementManagement/connectedOrganizations",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"beta",
+						"identityGovernance",
+						"entitlementManagement",
+						"connectedOrganizations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Connected Org",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if( pm.response.code == 200 )\r",
+							"{\r",
+							"    var json = JSON.parse(responseBody);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{AppAccessToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"displayName\":\"AgileWays\",\r\n  \"description\":\"All Things Agile\",\r\n  \"state\":\"configured\"\r\n}"
+				},
+				"url": {
+					"raw": "https://graph.microsoft.com/beta/identityGovernance/entitlementManagement/connectedOrganizations/{{CatalogId}}",
+					"protocol": "https",
+					"host": [
+						"graph",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"beta",
+						"identityGovernance",
+						"entitlementManagement",
+						"connectedOrganizations",
+						"{{CatalogId}}"
 					]
 				}
 			},
