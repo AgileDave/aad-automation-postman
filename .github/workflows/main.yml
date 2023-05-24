@@ -10,4 +10,4 @@ jobs:
       - uses: matt-ball/newman-action@master
         with:
           collection: AAD Automation Groups.postman_collection.json
-          environment: DaveMan AAD Tenant.postman_environment.json
+          environment: Automation Dave AAD Tenant.postman_environment.json
