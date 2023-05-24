@@ -11,3 +11,9 @@ jobs:
         with:
           collection: AAD Automation Groups.postman_collection.json
           environment: Automation Dave AAD Tenant.postman_environment.json
+
+      - uses: matt-ball/newman-action@master
+        with:
+          collection: DaveMan AAD Custom Auth Extensions.postman_collection.json
+          environment: DaveMan AAD Tenant.postman_environment.json
+  

@@ -152,8 +152,8 @@
 							"if( pm.response.code == 201 )\r",
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
-							"    postman.setNextRequest( \"Create Kube Group\" );\r",
-							"}"
+							"}\r",
+							"postman.setNextRequest( \"Create Kube Group\" );"
 						],
 						"type": "text/javascript"
 					}
