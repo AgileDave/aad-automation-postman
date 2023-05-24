@@ -99,7 +99,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"@odata.type\": \"#microsoft.graph.countryNamedLocation\",\r\n    \"displayName\": \"Some locations in the EMEA region\",\r\n    \"countriesAndRegions\": [\r\n        \"DE\",\r\n        \"GB\"\r\n    ],\r\n    \"includeUnknownCountriesAndRegions\": true\r\n}"
+					"raw": "{\r\n    \"@odata.type\": \"#microsoft.graph.countryNamedLocation\",\r\n    \"displayName\": \"Some more locations in the EMEA region\",\r\n    \"countriesAndRegions\": [\r\n        \"IE\",\r\n        \"FR\"\r\n    ],\r\n    \"includeUnknownCountriesAndRegions\": true\r\n}"
 				},
 				"url": {
 					"raw": "https://graph.microsoft.com/beta/identity/conditionalAccess/namedLocations",
