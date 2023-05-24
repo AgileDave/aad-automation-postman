@@ -17,7 +17,7 @@
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
 							"    postman.setEnvironmentVariable(\"AppAccessToken\", json.access_token);\r",
-							"    postman.setNextRequest( \"Create Named Locations\" );\r",
+							"    postman.setNextRequest( \"Get Custom Auth Extensions\" );\r",
 							"}"
 						],
 						"type": "text/javascript"
@@ -92,6 +92,7 @@
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
 							"    pm.environment.set(\"CustomAuthExt\", json.value[0].id);\r",
+							"    postman.setNextRequest(\"Update Custom Auth Extension\");\r",
 							"}"
 						],
 						"type": "text/javascript"
@@ -147,7 +148,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"@odata.type\": \"#microsoft.graph.onTokenIssuanceStartCustomExtension\",\r\n    \"claimsForTokenConfiguration\": [\r\n        {\r\n            \"claimIdInApiResponse\": \"dateOfBirth\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"customRoles\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"apiVersion\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"correlationId\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"storeNumber\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"clientIp\"\r\n        }\r\n    ]\r\n}"
+					"raw": "{\r\n    \"@odata.type\": \"#microsoft.graph.onTokenIssuanceStartCustomExtension\",\r\n    \"claimsForTokenConfiguration\": [\r\n        {\r\n            \"claimIdInApiResponse\": \"dateOfBirth\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"customRoles\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"apiVersion\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"correlationId\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"storeNumber\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"clientIp\"\r\n        },\r\n        {\r\n            \"claimIdInApiResponse\": \"someOtherClaim\"\r\n        }\r\n    ]\r\n}"
 				},
 				"url": {
 					"raw": "https://graph.microsoft.com/beta/identity/customAuthenticationExtensions/{{CustomAuthExt}}",
