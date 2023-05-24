@@ -88,9 +88,10 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"if( pm.response.code == 200 )\r",
+							"if( pm.response.code == 201 )\r",
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
+							"    pm.environment.set( \"LocationId\", json.id )\r",
 							"    postman.setNextRequest( \"Create Authentication Strengths Policy\" );\r",
 							"}"
 						],
@@ -148,7 +149,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"if( pm.response.code == 200 )\r",
+							"if( pm.response.code == 201 )\r",
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
 							"    postman.setNextRequest( \"Create Kube Group\" );\r",
@@ -203,7 +204,7 @@
 							"if( pm.response.code == 200 )\r",
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
-							"    postman.setEnvironmentVariable(\"CatalogId\", json.id);\r",
+							"    pm.environment.set(\"CatalogId\", json.id);\r",
 							"    postman.setNextRequest( \"Update Connected Org\" );\r",
 							"}"
 						],
@@ -307,10 +308,10 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"if( pm.response.code == 200 )\r",
+							"if( pm.response.code == 201 )\r",
 							"{\r",
 							"    var json = JSON.parse(responseBody);\r",
-							"    postman.setEnvironmentVariable(\"GroupId\", json.id);\r",
+							"    pm.environment.set(\"GroupId\", json.id);\r",
 							"    postman.setNextRequest( \"Create TestApp MFA CA Policy\" );\r",
 							"}"
 						],
@@ -370,7 +371,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"displayName\": \"Require MFA to TestApp from non-complaint devices.\",\r\n    \"state\": \"enabled\",\r\n    \"conditions\": {\r\n        \"applications\": {\r\n            \"includeApplications\": [\r\n                \"7f207ee6-77a6-48a7-9a71-f002c16797df\"\r\n            ]\r\n        },\r\n        \"users\": {\r\n            \"includeGroups\": [\"{{GroupId}}\"]\r\n        },\r\n        \"devices\": {\r\n            \"includeDevices\": [\r\n                \"All\"\r\n            ],\r\n            \"excludeDevices\": [\r\n                \"Compliant\"\r\n            ]\r\n        }\r\n    },\r\n    \"grantControls\": {\r\n        \"operator\": \"OR\",\r\n        \"builtInControls\": [\r\n            \"mfa\"\r\n        ]\r\n    }\r\n}"
+					"raw": "{\r\n    \"displayName\": \"Require MFA to TestApp from non-complaint devices.\",\r\n    \"state\": \"enabledForReportingButNotEnforced\",\r\n    \"conditions\": {\r\n        \"applications\": {\r\n            \"includeApplications\": [\r\n                \"7f207ee6-77a6-48a7-9a71-f002c16797df\"\r\n            ]\r\n        },\r\n        \"users\": {\r\n            \"includeGroups\": [\"{{GroupId}}\"]\r\n        },\r\n        \"locations\": {\r\n            \"includeLocations\": [\r\n                \"{{LocationId}}\"\r\n            ]\r\n        }\r\n    },\r\n    \"grantControls\": {\r\n        \"operator\": \"OR\",\r\n        \"builtInControls\": [\r\n            \"mfa\"\r\n        ]\r\n    }\r\n}"
 				},
 				"url": {
 					"raw": "https://graph.microsoft.com/beta/identity/conditionalAccess/policies",
