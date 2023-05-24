@@ -7,12 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+        name: "Check Out"
+
       - uses: matt-ball/newman-action@master
+        name: "Run group and CA objects"
         with:
           collection: AAD Automation Groups.postman_collection.json
           environment: Automation Dave AAD Tenant.postman_environment.json
 
       - uses: matt-ball/newman-action@master
+        name: "Update custom auth extension"
         with:
           collection: DaveMan AAD Custom Auth Extensions.postman_collection.json
           environment: DaveMan AAD Tenant.postman_environment.json
