@@ -20,7 +20,10 @@ jobs:
         uses: cschleiden/replace-tokens@v1.2
         with:
           files: DaveMan AAD Tenant.postman_environment.json
-  
+        env:
+          CLIENT_ID: ${{ secrets.DAVEMAN_AAD_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.DAVEMAN_ENV_CLIENT_SECRET }}
+
       - uses: matt-ball/newman-action@master
         name: "Update custom auth extension"
         with:
