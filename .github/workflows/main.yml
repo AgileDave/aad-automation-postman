@@ -1,4 +1,4 @@
-name: Newman Run
+name: Deploy AAD Scripts to Production
 
 on: push
 
@@ -16,6 +16,11 @@ jobs:
           collection: AAD Automation Groups.postman_collection.json
           environment: ${{ secrets.AUTOMATION_DAVE_AAD_ENVIRONMENT_KEY }}
 
+      - name: Replace environment tokens
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          files: DaveMan AAD Tenant.postman_environment.json
+  
       - uses: matt-ball/newman-action@master
         name: "Update custom auth extension"
         with:
