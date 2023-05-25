@@ -12,12 +12,14 @@ jobs:
       - uses: matt-ball/newman-action@master
         name: "Run group and CA objects"
         with:
+          apiKey: ${{ secrets.NEWMAN_API_KEY }}
           collection: AAD Automation Groups.postman_collection.json
-          environment: Automation Dave AAD Tenant.postman_environment.json
+          environment: ${{ secrets.AUTOMATION_DAVE_AAD_ENVIRONMENT_KEY }}
 
       - uses: matt-ball/newman-action@master
         name: "Update custom auth extension"
         with:
+          apiKey: ${{ secrets.NEWMAN_API_KEY }}
           collection: DaveMan AAD Custom Auth Extensions.postman_collection.json
-          environment: DaveMan AAD Tenant.postman_environment.json
+          environment: ${{ secrets.DAVEMAN_AAD_ENVIRONMENT_KEY }}
   
