@@ -21,5 +21,5 @@ jobs:
         with:
           apiKey: ${{ secrets.NEWMAN_API_KEY }}
           collection: DaveMan AAD Custom Auth Extensions.postman_collection.json
-          environment: ${{ secrets.DAVEMAN_AAD_ENVIRONMENT_KEY }}
+          environment: 5706303-0b5e23fc-324f-412a-817b-50188a975f47
   
